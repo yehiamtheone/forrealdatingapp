@@ -1,10 +1,10 @@
 # Real Dating App - Frontend
 
-A Java-based frontend application for a real-time dating platform with MongoDB backend and socket.io integration.
+A Java-based frontend application for a real-time dating platform with MongoDB backend and socket integration.
 
 ## Prerequisites
 
-- **Backend Setup Required**: Clone and set up the [backend repository](https://github.com/yehiamtheone/forrealdatingapp) first
+- **Backend Setup Required**: Clone and set up the [backend branch](https://github.com/yehiamtheone/forrealdatingapp) first
 - **Database**: MongoDB (Atlas cloud or local installation)
 - **Media Storage**: Cloudinary account (optional, for image uploads)
 
@@ -23,7 +23,6 @@ cd forrealdatingapp
 
 Copy the `env.example` file and configure your environment variables:
 
-- `EXPRESS_HOST`: Backend server URL (e.g., `localhost:3000`)
 - `SOCKET_HOST`: Socket server host (e.g., `127.0.0.1`)
 - `SOCKET_PORT`: Socket server port (e.g., `4000`)
 - `CLOUDINARY_URL`: Cloudinary API URL (if using cloud media storage)
@@ -52,7 +51,7 @@ Copy the `env.example` file and configure your environment variables:
    - Run the executable
 
 4. **Set environment variables (Windows)**
-   ```cmd
+   ```bat
    setx EXPRESS_HOST "localhost:3000"
    setx SOCKET_HOST "127.0.0.1"
    setx SOCKET_PORT "4000"
@@ -147,13 +146,12 @@ Copy the `env.example` file and configure your environment variables:
 4. Test thoroughly
 5. Submit a pull request
 
-## License
-
-[Add your license information here]
-
 ## Support
 
 For issues related to:
 - **Backend Setup**: Check the backend branch documentation
 - **Database Configuration**: Refer to MongoDB connection setup in backend
 - **Jenkins Pipeline**: Ensure correct branch and agent configuration
+<!-- ## License
+
+[Add your license information here] -->
