@@ -1,6 +1,6 @@
 const net = require("net");
-const { MatchModel } = require("./models/MatchModel");
-const { UserModel } = require ("./models/usersModel");
+const { MatchModel } = require("./models/MatchModel.js");
+const { UserModel } = require ("./models/usersModel.js");
 const { SOCKET_PORT } = require('./secret/secretConf.js');
 const { Message } = require("./models/MessageModel.js");
 // Store connected clients with their userIds

@@ -6,7 +6,7 @@ pipeline {
         // Define environment variables (can be loaded from Jenkins credentials)
         EXPRESS_PORT = credentials('EXPRESS_PORT')
         SOCKET_PORT = credentials('SOCKET_PORT')
-        MONGO_ATLAS_URL = credentials('MONGO_ATLAS_URL')
+        MONGO_ATLAS_URL = credentials('MONGO_URL')
         TOKEN_STRING = credentials('TOKEN_STRING')
     }
     stages {
@@ -24,7 +24,7 @@ pipeline {
                         EXPRESS_PORT=${EXPRESS_PORT}
                         TOKEN_STRING=${TOKEN_STRING}
                         SOCKET_PORT=${SOCKET_PORT}
-                        MONGO_ATLAS_URL=${MONGO_ATLAS_URL}
+                        MONGO_ATLAS_URL=${MONGO_URL}
                         EOF
                         '''
                     } else {
@@ -32,7 +32,7 @@ pipeline {
                         echo EXPRESS_PORT=%EXPRESS_PORT% > .env
                         echo TOKEN_STRING=%TOKEN_STRING% >> .env
                         echo SOCKET_PORT=%SOCKET_PORT% >> .env
-                        echo MONGO_ATLAS_URL=%MONGO_ATLAS_URL% >> .env
+                        echo MONGO_ATLAS_URL=%MONGO_URL% >> .env
                         '''
                     }
                 }
