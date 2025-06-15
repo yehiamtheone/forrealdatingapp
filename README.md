@@ -19,6 +19,8 @@ Copy the `env.example` file and configure your environment variables:
 - `SOCKET_HOST`: Socket server host (e.g., `127.0.0.1`)
 - `SOCKET_PORT`: Socket server port (e.g., `4000`)
 - `CLOUDINARY_URL`: Cloudinary API URL (if using cloud media storage)
+- `MONGO_URL`: Atlas url from mongo atlas or localhost usually on PORT 27017
+if used locally. 
 
 ## Development Setup
 
