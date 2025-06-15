@@ -59,7 +59,7 @@ Copy the `env.example` file and configure your environment variables:
    - Set label to `unix` for Unix-based builds
 
 ### Pipeline Files
-**Jenkinsfile**: prjectRoot/Jenkinsfile
+**Jenkinsfile**: projectRoot/Jenkinsfile
 **Purpose**: Upload the server and make it ready to handle api requests and tcp requests.
 
 **Requirements**: 
