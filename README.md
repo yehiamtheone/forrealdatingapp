@@ -60,6 +60,7 @@ Copy the `env.example` file and configure your environment variables:
 
 ### Pipeline Files
 **Jenkinsfile**: projectRoot/Jenkinsfile
+
 **Purpose**: Upload the server and make it ready to handle api requests and tcp requests.
 
 **Requirements**: 
