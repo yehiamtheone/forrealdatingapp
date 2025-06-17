@@ -4,7 +4,7 @@ A JavaScript-based backend application for a real-time dating platform with Mong
 
 ### Clone the Repository
 
-This project uses multiple branches. Clone the frontend branch specifically:
+This project uses multiple branches. Clone the backend branch specifically:
 
 ```bash
 git clone -b Backend https://github.com/yehiamtheone/forrealdatingapp.git
