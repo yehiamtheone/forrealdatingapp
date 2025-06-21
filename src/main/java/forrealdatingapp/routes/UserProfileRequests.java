@@ -115,6 +115,33 @@ public class UserProfileRequests {
         }
         
     }
+    public static void UpdateBio(User bioChange, String _id) {
+         try {
+            String json = manageJSON().writeValueAsString(bioChange);
+            // System.out.println(json);
+            HttpClient client = HttpClient.newHttpClient();
+
+            // Add query parameters to the URL
+           
+
+            HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(getHost() + "profile/updateBio")) // URL with query params
+            .method("PATCH", HttpRequest.BodyPublishers.ofString(json)) 
+            .header("Content-Type", "application/json")
+            .header("x-api-key", manageToken().getToken(_id))
+            .build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+            System.out.println("Response Code: " + response.statusCode());
+            System.out.println("Response Body: " + response.body());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+
+
+        }
 
 
 }

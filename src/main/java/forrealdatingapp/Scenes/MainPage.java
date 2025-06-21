@@ -36,7 +36,7 @@ private User user;
 private static final ObjectMapper om = new ObjectMapper();
 private static int Count = 0;
 private static int page;
-private static boolean  UsersDetectad;
+private static boolean UsersDetectad;
 private static User next;
 private static Queue<User> users;
     public void showMainPage(Stage stage, String _id) {
@@ -50,7 +50,7 @@ private static Queue<User> users;
 
 
         String imgurl = "";
-        UsersDetectad = true;
+        
         // Label for text
        
         users = MatchingRequests.getUsers(_id, Integer.toString(page) );
@@ -59,7 +59,7 @@ private static Queue<User> users;
         
         
         if (users != null) {
-            
+            UsersDetectad = true;
             // System.out.println("test");
             if((next = users.peek()) != null)
                 imgurl =  next.getPictures().get(0).replace('\\', '/');
@@ -134,6 +134,8 @@ private static Queue<User> users;
       
             
         dislikeButton.setOnAction(e -> {
+            if (UsersDetectad) {
+                
             if(next != null){
 
                 // next.get_id()
@@ -141,7 +143,7 @@ private static Queue<User> users;
                     "_id", next.get_id()
                 ));
                 try {
-                    String json = om.writeValueAsString(idMap);  
+                    String json = om.writeValueAsString(idMap);
                     MatchingRequests.Dislike(json, _id);
                     
                 } catch (Exception ex) {
@@ -153,18 +155,21 @@ private static Queue<User> users;
                 DisplayUser(name, age, bio, users, imageView);
             }
             else{
+                
                 users = MatchingRequests.getUsers(_id, Integer.toString(++page));
                 DisplayUser(name, age, bio, users, imageView);
-
+                
             }
+        }
             
         });
         likeButton.setOnAction(e->{
+            if(UsersDetectad){
             if(next != null){
 
                 Map<String, String> likeMap = new HashMap<>(Map.of("_id", next.get_id()));
                 try {
-                   MatchingRequests.like(om.writeValueAsString(likeMap), _id);
+                //    MatchingRequests.like(om.writeValueAsString(likeMap), _id);
                    Map<String, Boolean> res =  MatchingRequests.CheckMatch(om.writeValueAsString(likeMap), _id);
                    if(res.get("match")){
                        //TODO: match effect                
@@ -188,6 +193,7 @@ private static Queue<User> users;
                 DisplayUser(name, age, bio, users, imageView);
 
             }
+        }
         });
      
   

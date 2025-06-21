@@ -1,5 +1,7 @@
 package forrealdatingapp.utilities;
 
+import static forrealdatingapp.routes.RouterUtils.getCludinaryUrl;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -11,7 +13,7 @@ public class CloudinaryUtils {
   
     public static String Upload(File file) {
         try {
-            String CLOUDINARY_URL = System.getenv("CLOUDINARY_URL");
+            String CLOUDINARY_URL = getCludinaryUrl();
             Cloudinary cloudinary = new Cloudinary(CLOUDINARY_URL);
             Map params = ObjectUtils.asMap(
                     "overwrite", true,

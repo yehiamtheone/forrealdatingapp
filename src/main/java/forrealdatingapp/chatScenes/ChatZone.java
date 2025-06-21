@@ -1,5 +1,8 @@
 package forrealdatingapp.chatScenes;
 
+import static forrealdatingapp.routes.RouterUtils.getTCPHost;
+import static forrealdatingapp.routes.RouterUtils.getTCPPort;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,7 +15,6 @@ import java.util.Map;
 import forrealdatingapp.Scenes.LoginWindow;
 import forrealdatingapp.Scenes.MainPage;
 import forrealdatingapp.Scenes.MatchesPage;
-import forrealdatingapp.Scenes.MatchesPage.Match;
 import forrealdatingapp.dtos.User;
 import forrealdatingapp.routes.MessageRequests;
 import forrealdatingapp.routes.UserProfileRequests;
@@ -44,7 +46,7 @@ public class ChatZone {
         public static BufferedReader reader;
         public static PrintWriter writer;
         private static String userId;
-        private static  String matchId;
+        public static String matchId;
         public static boolean inChatZoneScreen = false;
         private static  String finalMessage;
         private static  String finalstr;
@@ -170,8 +172,8 @@ public class ChatZone {
         }
     
         public static void connectToServer() {
-            String socket_host = System.getenv("SOCKET_HOST");
-            int socket_port = Integer.parseInt(System.getenv("SOCKET_PORT"));
+            String socket_host = getTCPHost();
+            int socket_port = getTCPPort();
             try {
                 if (socket == null ||socket.isClosed()) {
                     

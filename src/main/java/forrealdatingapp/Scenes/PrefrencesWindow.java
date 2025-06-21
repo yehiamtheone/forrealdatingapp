@@ -137,6 +137,7 @@ public class PrefrencesWindow {
                 int min = (int)ageSlider.getLowValue();
                 int max = (int)ageSlider.getHighValue();
                 User userPref = new User();
+                userPref.setBio(bioTextArea.getText());
                 userPref.setBirthDate(birthdateString);
                 userPref.setAge(age); // Assuming User has an `age` field
                 userPref.setGender(gender);

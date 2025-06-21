@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -254,7 +255,8 @@ public class ProfilePage {
     removeBio.setOnAction((e)->{
         User bioChange = new User();
         bioChange.setBio("");
-        UserProfileRequests.UpdatePreferrences(bioChange, _id);
+        UserProfileRequests.UpdateBio(bioChange, _id);
+        showSuccess("Bio removed successfuly");
 
     });
     Button backToProfileButton = createStyledButton("Back to Profile", "back");
