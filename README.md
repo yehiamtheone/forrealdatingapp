@@ -1,4 +1,4 @@
-# Environment Variables Configuration
+# Environment Variables Configuration and important notes
 
 This document outlines the environment variables required for different deployment scenarios and application components.
 
@@ -37,7 +37,7 @@ For frontend-only configuration:
 EXPRESS=http://<ip>:<port>/
 TCP=<ip>:<port>
 CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@<your_cloud_name>
-TOKEN_SECRET=<any_string>
+
 ```
 
 ## Environment Variables Reference
