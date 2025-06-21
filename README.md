@@ -1,5 +1,10 @@
 # Environment Variables Configuration and important notes
 
+## Branches
+- `frontend`: Contains JavaFX code  
+- `backend`: Contains Node.js/API code  
+- `main`: Environment Variables Configuration and important notes
+
 This document outlines the environment variables required for different deployment scenarios and application components.
 
 ## Docker Compose / System Variables
