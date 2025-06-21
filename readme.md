@@ -4,7 +4,7 @@ A Java-based frontend application for a real-time dating platform with MongoDB b
 
 ## Prerequisites
 
-- **Backend Setup Required**: Clone and set up the [backend branch](https://github.com/yehiamtheone/forrealdatingapp) first
+- **Backend Setup Required**: Clone and set up the [backend branch](https://github.com/yehiamtheone/forrealdatingapp/tree/Backend) first
 - **Database**: MongoDB (Atlas cloud or local installation)
 - **Media Storage**: Cloudinary account (optional, for image uploads)
 
