@@ -22,9 +22,10 @@ cd forrealdatingapp
 ### Environment Configuration
 
 Copy the `env.example` file and configure your environment variables:
+- `Express`:Making requests to the backend api (e.g., `http://127.0.0.1:3000`)
 
-- `SOCKET_HOST`: Socket server host (e.g., `127.0.0.1`)
-- `SOCKET_PORT`: Socket server port (e.g., `4000`)
+- `TCP`: Socket server host and port (e.g., `127.0.0.1:4000`)
+
 - `CLOUDINARY_URL`: Cloudinary API URL (if using cloud media storage)
 
 ## Development Setup
@@ -52,9 +53,8 @@ Copy the `env.example` file and configure your environment variables:
 
 4. **Set environment variables (Windows)**
    ```bat
-   setx EXPRESS_HOST "localhost:3000"
-   setx SOCKET_HOST "127.0.0.1"
-   setx SOCKET_PORT "4000"
+   setx EXPRESS "http://127.0.0.1:3000"
+   setx TCP "127.0.0.1:4000"
    setx CLOUDINARY_URL "your_cloudinary_url_here"
    ```
 
