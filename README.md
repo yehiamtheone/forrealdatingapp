@@ -10,6 +10,6 @@
 
 ### Notes
 
-- no intentions on my side to merge between front and backend code 
+- No intentions on my side to merge between front and backend code 
 meant for project presentition only.
-- frontend cannot be dockerized nor contarized as its purpuse to be a stand alone exe app that can only estblish connect to apis and cannot be as an active app.
+- Frontend cannot be dockerized nor contarized as its purpose to be a stand alone exe app that can only establish connection to apis and cannot function as an active server.
