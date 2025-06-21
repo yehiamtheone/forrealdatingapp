@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 let otpModel = new mongoose.Schema({
     email:String,
     otp:Number,
-    createdAt: { type: Date, default: Date.now, expires: '1d' }
+    createdAt: { type: Date, default: Date.now, expires: 600 }
 });
 exports.OtpModel = mongoose.model("otps", otpModel);
 exports.OtpValidation = (requestBody) =>{

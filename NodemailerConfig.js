@@ -1,13 +1,13 @@
 const nodemailer = require('nodemailer');
-
+const { GMAIL_SMTP_EMAIL, GMAIL_SMTP_PASS } = require('./secret/secretConf.js');
 // Configure transporter for sending emails
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
   port: 465,
   secure: true,
   auth: {
-    user: 'yehiamknafoprivate@gmail.com',
-    pass: 'jurz xggb tqns aaml'
+    user: GMAIL_SMTP_EMAIL,
+    pass: GMAIL_SMTP_PASS
   }
 });
 
@@ -22,7 +22,7 @@ async function sendOtp(email) {
   const otp = generateOtp();
 
   const mailOptions = {
-    from: 'yehiamknafoprivate@gmail.com', // Sender address
+    from: GMAIL_SMTP_EMAIL, // Sender address
     to: email, // Receiver email
     subject: 'Your OTP Code',
     text: `Your OTP code is: ${otp}`

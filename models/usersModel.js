@@ -1,13 +1,14 @@
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
-require('../secret/secretConf.js');
 const mongoose = require('mongoose');
-const {  TOKEN_STRING } = require('../secret/secretConf.js');
+const { TOKEN_STRING } = require('../secret/secretConf.js');
 
 let usersSchema = new mongoose.Schema({
 firstName:String , 
 lastName:String , 
 age:Number ,
+minPreferredAge:Number,
+maxPreferredAge:Number,
 email:String,
 username: String,
 profilePicture: String,
@@ -39,8 +40,11 @@ exports.validateSignup = (_reqBody) => {
         preferredGender: Joi.string().required().min(4),
         bio: Joi.string().required().max(50),
         password: Joi.string().required().max(200),
-        profilePicture: Joi.string().max(200)
+        profilePicture: Joi.string().max(200),
+        minPreferredAge: Joi.number().min(18).max(99),
+        maxPreferredAge: Joi.number().min(18).max(99)
     });
+   
     
   // נבדוק את המידע בצד הלקוח על מנת לחסוך קריאה לדאטה בייס ונבדוק שהמידע תקין ובמידה ולא ניתן הודעה מתאימה בצד לקוח 
 // שימו לב למיקום הבדיקה בראוט

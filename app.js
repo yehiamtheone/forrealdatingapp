@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const connectToDB = require('./db/mongoConnect.js');
 const Routes = require('./routes/config_routes.js');
-const { EXPRESS_PORT} = require('./secret/secretConf.js');
+const { EXPRESS_PORT } = require('./secret/secretConf.js');
 require("./SocketServer.js");
 
 // Initialize Express app
