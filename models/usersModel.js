@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
-const { TOKEN_STRING } = require('../secret/secretConf.js');
+const { TOKEN_SECRET } = require('../secret/secretConf.js');
 
 let usersSchema = new mongoose.Schema({
 firstName:String , 
@@ -71,7 +71,7 @@ exports.validateProfileUpdate = (_reqBody) =>{
     return joiSchema.validate(_reqBody);
 };
 exports.createToken = (id) =>{
-  let token = jwt.sign( { _id: id }, TOKEN_STRING , {expiresIn: "180mins"});
+  let token = jwt.sign( { _id: id }, TOKEN_SECRET , {expiresIn: "180mins"});
   return token;
 
   

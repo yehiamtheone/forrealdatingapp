@@ -51,7 +51,7 @@ router.patch("/updatePreferrences", auth, async (req, res) => {
     if (age !== undefined && age > 17) updates.age = age;
     if (gender !== undefined) updates.gender = gender;
     if (preferredGender !== undefined) updates.preferredGender = preferredGender;
-    if (bio !== undefined) updates.bio = bio;
+    if (bio !== undefined && bio !== "") updates.bio = bio;
     if (minPreferredAge !== undefined) updates.minPreferredAge = minPreferredAge;
     if (maxPreferredAge !== undefined) updates.maxPreferredAge = maxPreferredAge;
     if (firstName !== undefined && firstName !== "") updates.firstName = firstName;
@@ -69,4 +69,21 @@ router.patch("/updatePreferrences", auth, async (req, res) => {
     return res.sendStatus(500);
   }
 });
+router.patch('/updateBio', auth, async (req, res) => {
+  try {
+   
+    const { bio } = req.body;
+    if (bio !== undefined) {
+      await UserModel.updateOne({ _id: req.tokenData._id }, { $set: {bio: bio} });
+      return res.sendStatus(200);
+    }
+    else
+      return res.status(400).json({ error: "No valid fields provided for update" });
+
+  } catch (error) {
+      console.error(error);
+      return res.sendStatus(500);
+  }
+  
+})
 module.exports = router;  

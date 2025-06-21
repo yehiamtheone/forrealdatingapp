@@ -1,6 +1,6 @@
 const net = require("net");
-const { MatchModel } = require("./models/MatchModel.js");
-const { UserModel } = require ("./models/usersModel.js");
+const { MatchModel } = require("./models/MatchModel");
+const { UserModel } = require ("./models/usersModel");
 const { SOCKET_PORT } = require('./secret/secretConf.js');
 const { Message } = require("./models/MessageModel.js");
 // Store connected clients with their userIds
@@ -9,12 +9,63 @@ const server = net.createServer((socket) => {
     let userId = null;
     let matchedUserId = null;
     let messageObj = {};
+    let matchedUserIds = null;
     console.log("Client connected");
     
         
     socket.on("data", async(data) => {
         const message = data.toString().trim();
         console.log("Received:", message);
+        if (message.includes("StoppedTyping|")) {
+            matchedUserId = message.split("|")[1];
+            userId = message.split("|")[2];
+            if (clients.has(matchedUserId)) {
+                clients.get(matchedUserId).write(`StoppedTyping|no-usage|${userId}\n`)
+            }
+
+
+
+
+        }
+        if (message.includes("Typing|") && message.startsWith("Typing|")) {
+            matchedUserId = message.split("|")[1];
+            userId = message.split("|")[2];
+            let username = await UserModel.findOne({_id: userId});
+            
+            if (clients.has(matchedUserId)) {
+                clients.get(matchedUserId).write(`Typing|${username.username}|${userId}\n`);
+                
+            }
+            
+        }
+        if(message.includes("Broadcast|")){
+            userId = message.split("|")[1].trim();
+            console.log(userId);
+            
+            const matches = await MatchModel.find({ user_id: userId }, { matched_user_id: 1, _id: 0 });
+            
+
+            // Extract only the matched_user_id values
+            matchedUserIds = matches.map(match => match.matched_user_id.toString());
+            
+            
+            
+            matchedUserIds.forEach(matchid=>{
+                console.log(matchid);
+                if (clients.has(userId)) {
+                    if (clients.has(matchid)) {
+                        socket.write(`MatchesPageStatus|${matchid}|online\n`);
+                        clients.get(matchid).write(`MatchesPageStatus|${userId}|online\n`);
+                    }
+                    else{
+                        socket.write(`MatchesPageStatus|${matchid}|offline\n`);
+                    }
+                }
+               
+
+            })
+            
+        }
         if(message.includes("UnmatchSocket|")){
             matchedUserId = message.split("match:")[1].trim();
             // console.log(userId);
@@ -67,27 +118,26 @@ const server = net.createServer((socket) => {
                 const match = await MatchModel.findOne({user_id: socket.userId, matched_user_id: matchedUserId});
                 if(!match) return;
                 // console.log(user);
-                const UserSender = await UserModel.findOne({_id: userId});
-                const UserReciver =await UserModel.findOne({_id: matchedUserId});
+                const UserSender = await UserModel.findOne({_id: socket.userId});
+                const UserReciver = await UserModel.findOne({_id: matchedUserId});
                 // Store client if new
-                
-                if(!clients.has(matchedUserId)){
-                    socket.write("Error| user is currently offline \n")
-                }
-                else {
-                    socket.write("online\n");
-                    clients.get(matchedUserId).write(UserSender.username + "| "+ content + ":approved|\n");
-
+                if(clients.has(matchedUserId)){
+                    clients.get(matchedUserId).write("MessageRecieved|" + UserSender.username + "|"+ content +"|" + UserSender._id + "\n");
 
                 }
                 messageObj = {
+                    senderID:UserSender._id,
                     senderUsername: UserSender.username,
+                    recieverID:UserReciver._id,
                     receiverUsername: UserReciver.username, 
                     message: content
                 }
                 let newMsg = new Message(messageObj);
                 await newMsg.save();
-                
+                await MatchModel.updateOne(
+                    { user_id: UserReciver._id, matched_user_id: UserSender._id }, // Match the authenticated user & their matched user
+                    { $inc: { messageCounter: 1 } }
+                );
 
                     
                     
@@ -104,8 +154,18 @@ const server = net.createServer((socket) => {
     });
 
     socket.on("end", () => {
-        console.log(`Client ${userId} disconnected`);
-        
+        console.log(`Client ${socket.userId} disconnected`);
+        socket.destroy();
+        if (matchedUserIds) {
+            matchedUserIds.forEach(matchid=>{
+                if(clients.has(matchid)){
+                    console.log("test");
+                    
+                    clients.get(matchid).write(`MatchesPageStatus|${userId}|offline\n`);
+                }
+            });
+            
+        }
     
     });
     
