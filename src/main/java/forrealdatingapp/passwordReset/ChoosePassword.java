@@ -1,9 +1,11 @@
-package forrealdatingapp;
+package forrealdatingapp.passwordReset;
 
 
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import forrealdatingapp.App;
+import forrealdatingapp.Scenes.LoginWindow;
+import forrealdatingapp.dtos.User;
+import forrealdatingapp.routes.AuthRequests;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -16,7 +18,7 @@ import javafx.stage.Stage;
 
 
 public class ChoosePassword {
-    void showChoosePassword(Stage stage, User user){
+    public void showChoosePassword(Stage stage, User user){
         
         VBox root = new VBox(15);
         Label passLabel = new Label("enter your new password");
@@ -27,7 +29,7 @@ public class ChoosePassword {
                 String passwordString = password.getText();
                 String status = "";
                 if(user != null)
-                    status = UsersRouteRequests.Resetusrpass(passwordString, user.getEmail());
+                    status = AuthRequests.Resetusrpass(passwordString, user.getEmail());
                 if(status.contains("403")){
                     Alert alert = new Alert(AlertType.ERROR);
                     alert.setTitle("Error");

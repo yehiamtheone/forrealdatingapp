@@ -1,8 +1,11 @@
-package forrealdatingapp;
+package forrealdatingapp.signUpScenes;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import forrealdatingapp.App;
+import forrealdatingapp.dtos.User;
+import forrealdatingapp.routes.AuthRequests;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -70,7 +73,7 @@ public class PasswordStage  {
                 try {
                     ObjectMapper om = new ObjectMapper();
                     String json = om.writeValueAsString(user);
-                    boolean ok = UsersRouteRequests.postSignup(json);
+                    boolean ok = AuthRequests.postSignup(json);
                     if(!ok){
                         Alert alert = new Alert(Alert.AlertType.ERROR, "cannot create account!", ButtonType.CLOSE);
                         alert.showAndWait();

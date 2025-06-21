@@ -1,4 +1,4 @@
-package forrealdatingapp;
+package forrealdatingapp.Scenes;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -8,6 +8,12 @@ import java.util.Queue;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import forrealdatingapp.App;
+import forrealdatingapp.chatScenes.ChatZone;
+import forrealdatingapp.dtos.User;
+import forrealdatingapp.routes.MatchingRequests;
+import forrealdatingapp.routes.UserProfileRequests;
+import forrealdatingapp.utilities.ImageUtils;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -26,16 +32,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MainPage {
-private static User user;
+private User user;
 private static final ObjectMapper om = new ObjectMapper();
 private static int Count = 0;
 private static int page;
 private static boolean  UsersDetectad;
 private static User next;
 private static Queue<User> users;
-    void showMainPage(Stage stage, String _id) {
+    public void showMainPage(Stage stage, String _id) {
         page = 1;
-        user = UsersRouteRequests.getMyProfile(_id);
+        user = UserProfileRequests.getMyProfile(_id);
         if (ChatZone.chatArea == null){
                 ChatZone.chatArea = new TextArea();
                 ChatZone.chatArea.setEditable(false);
@@ -47,7 +53,7 @@ private static Queue<User> users;
         UsersDetectad = true;
         // Label for text
        
-        users = UsersRouteRequests.getUsers(_id, Integer.toString(page) );
+        users = MatchingRequests.getUsers(_id, Integer.toString(page) );
         System.out.println(users);
         
         
@@ -136,7 +142,7 @@ private static Queue<User> users;
                 ));
                 try {
                     String json = om.writeValueAsString(idMap);  
-                    UsersRouteRequests.Dislike(json, _id);
+                    MatchingRequests.Dislike(json, _id);
                     
                 } catch (Exception ex) {
                     System.out.println("error");
@@ -147,7 +153,7 @@ private static Queue<User> users;
                 DisplayUser(name, age, bio, users, imageView);
             }
             else{
-                users = UsersRouteRequests.getUsers(_id, Integer.toString(++page));
+                users = MatchingRequests.getUsers(_id, Integer.toString(++page));
                 DisplayUser(name, age, bio, users, imageView);
 
             }
@@ -158,8 +164,8 @@ private static Queue<User> users;
 
                 Map<String, String> likeMap = new HashMap<>(Map.of("_id", next.get_id()));
                 try {
-                   UsersRouteRequests.like(om.writeValueAsString(likeMap), _id);
-                   Map<String, Boolean> res =  UsersRouteRequests.CheckMatch(om.writeValueAsString(likeMap), _id);
+                   MatchingRequests.like(om.writeValueAsString(likeMap), _id);
+                   Map<String, Boolean> res =  MatchingRequests.CheckMatch(om.writeValueAsString(likeMap), _id);
                    if(res.get("match")){
                        //TODO: match effect                
                         Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -178,7 +184,7 @@ private static Queue<User> users;
                 DisplayUser(name, age, bio, users, imageView);
             }
             else{
-                users = UsersRouteRequests.getUsers(_id, Integer.toString(++page));
+                users =  MatchingRequests.getUsers(_id, Integer.toString(++page));
                 DisplayUser(name, age, bio, users, imageView);
 
             }
@@ -220,7 +226,7 @@ private static Queue<User> users;
             }
         });
         preferrences.setOnAction((actionEvent) -> {
-            PrefrencesWindowWithToken pwwt = new PrefrencesWindowWithToken();
+            PrefrencesWindow pwwt = new PrefrencesWindow();
             pwwt.showPrefrencesWindow(stage, _id);
             
         });

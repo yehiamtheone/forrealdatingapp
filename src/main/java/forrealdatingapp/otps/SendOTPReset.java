@@ -1,5 +1,8 @@
-package forrealdatingapp;
+package forrealdatingapp.otps;
 
+import forrealdatingapp.App;
+import forrealdatingapp.dtos.User;
+import forrealdatingapp.routes.AuthRequests;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -64,7 +67,7 @@ public class SendOTPReset  {
         String email = emailField.getText().trim();
         if (isValidEmail(email)) {
             System.out.println("valid");
-            String res =  UsersRouteRequests.sendOtpRequest(email,"reset-otp");  // Assume this sends the OTP request
+            String res =  AuthRequests.sendOtpRequest(email,"reset-otp");  // Assume this sends the OTP request
             System.out.println(res);
             switch (res) {
                 case "valid": {

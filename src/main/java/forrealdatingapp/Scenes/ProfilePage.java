@@ -1,4 +1,4 @@
-package forrealdatingapp;
+package forrealdatingapp.Scenes;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,16 +11,18 @@ import java.util.Map;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import forrealdatingapp.dtos.User;
+import forrealdatingapp.routes.FileRequests;
+import forrealdatingapp.routes.UserProfileRequests;
+import forrealdatingapp.utilities.CloudinaryUtils;
+import forrealdatingapp.utilities.ImageUtils;
 import javafx.animation.PauseTransition;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -31,6 +33,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -41,10 +44,11 @@ public class ProfilePage {
     private static final String PRIMARY_COLOR = "#2196F3";
     private static final String SECONDARY_COLOR = "#FFF";
     private static final String BACKGROUND_COLOR = "#F5F5F5";
+    private static final String RED_COLOR = "#c40a0a";
     
-    private final SimpleStringProperty name = new SimpleStringProperty();
-    private final SimpleIntegerProperty age = new SimpleIntegerProperty();
-    private final SimpleStringProperty bio = new SimpleStringProperty();
+    private final Text name = new Text();
+    private final Text age = new Text();
+    private final Text bio = new Text();
     
     private final List<ImageView> pictureViews = new ArrayList<>();
     private final GridPane pictureGrid = new GridPane();
@@ -57,9 +61,9 @@ public class ProfilePage {
         user = currentUser;
         this._id = _id;
         // Initialize example data
-        name.set(user.getFirstName());
-        age.set(user.getAge());
-        bio.set(user.getBio());
+        name.setText(user.getFirstName() + " " + user.getLastName());
+        age.setText(Integer.toString(user.getAge()));
+        bio.setText(user.getBio());
         List<String> userPictures = user.getPictures(); // Assumes pictures are stored as Strings (e.g., URLs or file paths)
         System.out.println(userPictures);
         initializePictureGrid(userPictures);
@@ -143,7 +147,7 @@ public class ProfilePage {
         circle.setFill(Color.web(PRIMARY_COLOR));
         
         // Create initials label
-        Label initials = new Label(getInitials(name.get()));
+        Label initials = new Label(getInitials(name.getText()));
         initials.setStyle("""
             -fx-text-fill: white;
             -fx-font-size: 36px;
@@ -190,7 +194,7 @@ public class ProfilePage {
                 Map<String, String> jsonMap = new HashMap<>();
                 
                 jsonMap.put("url", urlToDB);
-                boolean success = UsersRouteRequests.updateProfilePicture(_id, jsonMap);
+                boolean success = UserProfileRequests.updateProfilePicture(_id, jsonMap);
                 if(success){
 
                     avatarContainer.getChildren().clear();
@@ -227,47 +231,58 @@ public class ProfilePage {
     }
 
     private VBox createDetailsSection(Stage stage, String _id) {
-        TextField nameField = createStyledTextField("Name", name.get());
-        nameField.textProperty().bindBidirectional(name);
-        
-        TextField ageField = createStyledTextField("Age", String.valueOf(age.get()));
-        ageField.textProperty().addListener((obs, old, newValue) -> {
-            if (newValue.matches("\\d*")) {
-                age.set(newValue.isEmpty() ? 0 : Integer.parseInt(newValue));
-            }
-        });
-        
-        TextArea bioArea = new TextArea(bio.get());
-        bioArea.setWrapText(true);
-        bioArea.textProperty().bindBidirectional(bio);
-        bioArea.setStyle(getTextFieldStyle());
-        bioArea.setPrefRowCount(3);
-        
-        Button saveButton = createStyledButton("Save Profile", "save");
-        Button backToProfileButton = createStyledButton("back to profile", "save");
-        saveButton.setOnAction(e -> handleSaveProfile());
-        backToProfileButton.setOnAction((actionEvent) -> {
-            MainPage mp = new MainPage();
-            mp.showMainPage(stage, _id);
-        });
-        
-        Label sectionTitle = new Label("Profile Details");
-        sectionTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
-        
-        detailsSection.getChildren().addAll(
-            sectionTitle,
-            new Label("Name"),
-            nameField,
-            new Label("Age"),
-            ageField,
-            new Label("Bio"),
-            bioArea,
-            saveButton,
-            backToProfileButton
-        );
-        
-        return detailsSection;
-    }
+    // Clear existing children (if any)
+    detailsSection.getChildren().clear();
+
+    // Create non-editable name label
+    Label nameLabel = new Label(name.getText());
+    nameLabel.setStyle(getTextFieldStyle());
+
+    // Create non-editable age label
+    Label ageLabel = new Label(age.getText());
+    ageLabel.setStyle(getTextFieldStyle());
+
+    // Create non-editable bio text (with wrapping)
+    Text bioText = new Text(bio.getText());
+    bioText.setWrappingWidth(400); // Adjust width as needed
+    VBox bioContainer = new VBox(bioText);
+    bioContainer.setStyle(getTextFieldStyle());
+    bioContainer.setPadding(new Insets(10));
+
+    // Back button (no edit/save buttons)
+    Button removeBio = createStyledButton("Remove Bio", "delete");
+    removeBio.setOnAction((e)->{
+        User bioChange = new User();
+        bioChange.setBio("");
+        UserProfileRequests.UpdatePreferrences(bioChange, _id);
+
+    });
+    Button backToProfileButton = createStyledButton("Back to Profile", "back");
+    backToProfileButton.setOnAction((actionEvent) -> {
+        MainPage mp = new MainPage();
+        mp.showMainPage(stage, _id);
+    });
+    HBox options = new HBox(15);
+    options.getChildren().addAll(removeBio, backToProfileButton);
+
+    // Section title
+    Label sectionTitle = new Label("Profile Details");
+    sectionTitle.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+
+    // Add all components to the details section
+    detailsSection.getChildren().addAll(
+        sectionTitle,
+        new Label("Name"),
+        nameLabel,
+        new Label("Age"),
+        ageLabel,
+        new Label("Bio"),
+        bioContainer,
+        options
+    );
+
+    return detailsSection;
+}
 
     // ... (rest of the methods remain the same)
 
@@ -322,7 +337,17 @@ public class ProfilePage {
 
     public Button createStyledButton(String text, String icon) {
         Button button = new Button(text);
-        button.setStyle(String.format("""
+        if (icon.equals("delete")) {
+              button.setStyle(String.format("""
+            -fx-background-color: %s;
+            -fx-text-fill: %s;
+            -fx-padding: 10 20;
+            -fx-background-radius: 5;
+            -fx-cursor: hand;
+            """, RED_COLOR, SECONDARY_COLOR));
+        }
+        else
+            button.setStyle(String.format("""
             -fx-background-color: %s;
             -fx-text-fill: %s;
             -fx-padding: 10 20;
@@ -370,7 +395,7 @@ public class ProfilePage {
                 jsonMap.put("url",urlToDB);
                 // handle a cloud entry and create a url here for now file for system path
                 String json = om.writeValueAsString(jsonMap);
-                UsersRouteRequests.addPicture(json, user.get_id());
+                FileRequests.addPicture(json, user.get_id());
                 showSuccess("Picture added successfully");
             } catch (Exception e) {
                 showError("Failed to add picture: " + e.getMessage());
@@ -443,6 +468,7 @@ public class ProfilePage {
         // Reorganize the grid
         reorganizePictureGrid();
         showSuccess("Picture removed successfully");
+        //TODO: REMOVE PICTURE FROM DATABASE
     }
     
     private void reorganizePictureGrid() {
@@ -456,67 +482,63 @@ public class ProfilePage {
         }
     }
     
-    private void handleSaveProfile() {
-        if (name.get().isEmpty() || age.get() <= 0 || bio.get().isEmpty()) {
-            showError("Please fill in all fields correctly");
-            return;
-        }
-    
-        // Here you would typically save to a database or make an API call
-        System.out.println("Saving profile:");
-        System.out.println("Name: " + name.get());
-        System.out.println("Age: " + age.get());
-        System.out.println("Bio: " + bio.get());
-        Map<String, Object> jsonMap = new HashMap<>();
-        jsonMap.put("firstName", name.get());
-        jsonMap.put("age", age.get());
-        jsonMap.put("bio", bio.get());
-        try {
-            String json = om.writeValueAsString(jsonMap);    
-            UsersRouteRequests.updateProfile(json, user.get_id());    
-            
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        
-        showSuccess("Profile saved successfully");
-    }
+   
     private void initializePictureGrid(List<String> picturePaths) {
-        pictureGrid.getChildren().clear(); // Clear existing grid content
-        if (picturePaths != null && !picturePaths.isEmpty()) {
-            // System.out.println("test pic paths: \n"+picturePaths);
-            int col = 0, row = 0;
-            for (String picturePath : picturePaths) {
-                try {
-                    
-                    // Image image = ImageUtils.loadCorrectedImage(file); // Load image from the path
-                    Image img = ImageUtils.loadCorrectedImage(picturePath);
-                    ImageView imageView = new ImageView();
-                    imageView.setImage(img);
-                    imageView.setFitHeight(150);
-                    imageView.setFitWidth(150);
-                    imageView.setPreserveRatio(true);
-                    // imageView.setRotate(90);
-                    pictureViews.add(imageView); // Add ImageView to the list for later use
-
-                    VBox pictureContainer = new VBox(10, imageView);
-                    pictureContainer.setAlignment(Pos.CENTER);
-                    pictureContainer.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 5;");
+    pictureGrid.getChildren().clear();
+    pictureViews.clear(); // Clear existing views
     
-                    pictureGrid.add(pictureContainer, col, row);
-    
-                    // Move to next row after 3 columns
-                    col++;
-                    if (col == 3) {
-                        col = 0;
-                        row++;
-                    }
-                } catch (Exception e) {
-                    showError("Failed to load picture: " + e.getMessage());
+    if (picturePaths != null && !picturePaths.isEmpty()) {
+        int col = 0, row = 0;
+        for (String picturePath : picturePaths) {
+            try {
+                Image img = ImageUtils.loadCorrectedImage(picturePath);
+                ImageView imageView = new ImageView(img);
+                imageView.setFitHeight(150);
+                imageView.setFitWidth(150);
+                imageView.setPreserveRatio(true);
+                
+                // Create the same container structure as addPictureToGrid()
+                VBox pictureContainer = new VBox(10);
+                pictureContainer.setAlignment(Pos.CENTER);
+                pictureContainer.setStyle("-fx-background-color: white; -fx-padding: 10; -fx-background-radius: 5;");
+                
+                // Add hover effect
+                pictureContainer.setOnMouseEntered(e -> 
+                    pictureContainer.setEffect(new DropShadow(10, Color.web(PRIMARY_COLOR))));
+                pictureContainer.setOnMouseExited(e -> 
+                    pictureContainer.setEffect(null));
+                
+                // Create buttons (same as addPictureToGrid)
+                HBox buttonContainer = new HBox(10);
+                buttonContainer.setAlignment(Pos.CENTER);
+                
+                Button editButton = createStyledButton("Edit", "edit");
+                editButton.setOnAction(e -> handleEditPicture(imageView));
+                
+                Button removeButton = createStyledButton("Remove", "remove");
+                removeButton.setOnAction(e -> handleRemovePicture(pictureContainer));
+                
+                buttonContainer.getChildren().addAll(editButton, removeButton);
+                pictureContainer.getChildren().addAll(imageView, buttonContainer);
+                
+                pictureGrid.add(pictureContainer, col, row);
+                pictureViews.add(imageView);
+                
+                // Grid positioning
+                col++;
+                if (col == 3) {
+                    col = 0;
+                    row++;
                 }
+            } catch (Exception e) {
+                showError("Failed to load picture: " + e.getMessage());
             }
         }
+    }
+}
+    public void handleRealtimeBioDelete(){
+        //TODO: SOCKET BIO DELETE
+
     }
 
     

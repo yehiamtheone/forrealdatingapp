@@ -1,4 +1,4 @@
-package forrealdatingapp;
+package forrealdatingapp.Scenes;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import forrealdatingapp.dtos.User;
+import forrealdatingapp.routes.MatchingRequests;
+import forrealdatingapp.utilities.ImageUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -27,7 +30,7 @@ public class MatchedProfilePage {
         File file;
         Map<String, Object> jsonMap = new HashMap<>();
         jsonMap.put("matchID", matchID);
-        User matchedUserDetails = UsersRouteRequests.getMatchedProfile(_id, jsonMap);
+        User matchedUserDetails = MatchingRequests.getMatchedProfile(_id, jsonMap);
         List<String> pics = matchedUserDetails.getPictures();
         VBox layout = new VBox();
         layout.setPadding(new Insets(15));

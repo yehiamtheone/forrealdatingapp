@@ -1,4 +1,4 @@
-package forrealdatingapp;
+package forrealdatingapp.chatScenes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,6 +9,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import forrealdatingapp.Scenes.LoginWindow;
+import forrealdatingapp.Scenes.MainPage;
+import forrealdatingapp.Scenes.MatchesPage;
+import forrealdatingapp.Scenes.MatchesPage.Match;
+import forrealdatingapp.dtos.User;
+import forrealdatingapp.routes.MessageRequests;
+import forrealdatingapp.routes.UserProfileRequests;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -67,9 +74,9 @@ public class ChatZone {
             if(isMessagesFetched.get(matchId) == null){
                 // System.out.println(userId);
                 // System.out.println(matchId);
-                List<Map<String, Object>> messages = UsersRouteRequests.FetchMessages(userId, matchId);
+                List<Map<String, Object>> messages = MessageRequests.FetchMessages(userId, matchId);
                 if(messages != null){
-                    User currentUser = UsersRouteRequests.getMyProfile(_userId);
+                    User currentUser = UserProfileRequests.getMyProfile(_userId);
                     StringBuilder chatContent = new StringBuilder();
                     String sender;
                     for (Map<String, Object> message : messages) {
@@ -126,7 +133,7 @@ public class ChatZone {
     
             Button backToMainScreen = new Button("back to main screen");
             backToMainScreen.setOnAction((actionEvent) -> {
-                UsersRouteRequests.ResetMessageCounter(_userId, match.getId());
+                MessageRequests.ResetMessageCounter(_userId, match.getId());
                 MessagesMap.put(matchId, chatArea);
                 inChatZoneScreen = false;
                 messageCounters.put(matchId, 0);

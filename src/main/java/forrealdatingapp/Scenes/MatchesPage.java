@@ -1,4 +1,4 @@
-package forrealdatingapp;
+package forrealdatingapp.Scenes;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -7,6 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import forrealdatingapp.chatScenes.ChatZone;
+import forrealdatingapp.dtos.Message;
+import forrealdatingapp.dtos.UnreadCounter;
+import forrealdatingapp.dtos.User;
+import forrealdatingapp.routes.MatchingRequests;
+import forrealdatingapp.routes.MessageRequests;
+import forrealdatingapp.utilities.ImageUtils;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -75,7 +82,7 @@ public class MatchesPage {
                     
                 }
                 ChatZone.writer.println("Broadcast|" + _id);
-                List<Message> lastMessages =  UsersRouteRequests.getLastMessages(_id);
+                List<Message> lastMessages =  MessageRequests.getLastMessages(_id);
                 List<Message> filteredMessages = lastMessages.stream()
                 .filter(e -> matches.stream()
                         .anyMatch(match -> e.getRecieverID().equals(match.getId()) || e.getSenderID().equals(match.getId())))
@@ -108,7 +115,7 @@ public class MatchesPage {
         
                     }
                 } 
-                List<UnreadCounter> unreadCounters = UsersRouteRequests.ShowUnreadMessages(_id);
+                List<UnreadCounter> unreadCounters = MessageRequests.ShowUnreadMessages(_id);
                 List<UnreadCounter> filteredCounters = unreadCounters.stream()
                 .filter(e -> matches.stream()
                 .anyMatch(match -> e.getMatched_user_id().equals(match.getId()))).toList();
@@ -231,7 +238,7 @@ private HBox createMatchBox(Match match,Stage stage,String _id) throws IOExcepti
     unmatchButton.setOnAction(e -> {
         System.out.println("test-button-unmatch");
         
-        boolean unmatched = UsersRouteRequests.Unmatch( _id, match._id);
+        boolean unmatched = MatchingRequests.Unmatch( _id, match._id);
         if(unmatched){
             //progress: socket logic done, database logic missing
             matchesListView.getItems().remove(matchBox);
@@ -295,7 +302,7 @@ messageCounter.setTextFill(Color.BLUE);
        
             List<Match> matches = new ArrayList<>();
             
-            List<User> matchesList = UsersRouteRequests.getMatches(Integer.toString(index) , _id);
+            List<User> matchesList = MatchingRequests.getMatches(Integer.toString(index) , _id);
             if (matchesList != null ){
                 for (User elem : matchesList) {
                     matches.add(new Match(elem.get_id(),elem.getUsername(), elem.getProfilePicture()));
@@ -341,13 +348,13 @@ messageCounter.setTextFill(Color.BLUE);
             return profilePictureUrl;
         }
     }
-    static void cleanCurrentUnmatch(String id){
+    public static void cleanCurrentUnmatch(String id){
         System.out.println("cleanCurrentUnmatch" + matchBoxMap.get(id));
         Platform.runLater(()->{
             matchesListView.getItems().remove(matchBoxMap.get(id));
         });
     }
-    static void setUserStatus(String id,String Type){
+    public static void setUserStatus(String id,String Type){
         // System.out.println(statusMap);
         // System.out.println(id);
         if(statusMap != null && !statusMap.isEmpty()){
@@ -382,7 +389,7 @@ messageCounter.setTextFill(Color.BLUE);
             statusMap.put(id, statusLabel);
         }
     }
-    static void showLastMessage(String usernameID, String content,String username){
+    public static void showLastMessage(String usernameID, String content,String username){
         if (lastMessageMap != null && !lastMessageMap.isEmpty()) {   
               
             Platform.runLater(()->{

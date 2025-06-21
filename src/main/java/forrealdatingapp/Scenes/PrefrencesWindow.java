@@ -1,10 +1,13 @@
-package forrealdatingapp;
+package forrealdatingapp.Scenes;
+
 
 import java.time.LocalDate;
 import java.time.Period;
 
 import org.controlsfx.control.RangeSlider;
 
+import forrealdatingapp.dtos.User;
+import forrealdatingapp.routes.UserProfileRequests;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -14,12 +17,13 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class PrefrencesWindowWithToken {
+public class PrefrencesWindow {
     public void showPrefrencesWindow(Stage stage,String id) {
         // Create a VBox for layout
         VBox root = new VBox(10);
@@ -29,6 +33,10 @@ public class PrefrencesWindowWithToken {
             MainPage mp = new MainPage();
             mp.showMainPage(stage, id);
         });
+        TextField firstname = new TextField();
+        firstname.setPromptText("Enter your first name:");
+        TextField lastname = new TextField();
+        lastname.setPromptText("Enter your last name:");
         // Birth Date
         Label birthDateLabel = new Label("Update Your Birth Date:");
         DatePicker birthDatePicker = new DatePicker();
@@ -104,8 +112,17 @@ public class PrefrencesWindowWithToken {
                 String birthdateString = null;
                 String gender = null;
                 String PreferredGender = null;
-                if (birthdateString != null) {
-                    
+                String firstnameString = null;
+                String lastnameString = null;
+                if (firstname.getText() != null) {
+                    firstnameString = firstname.getText();
+                }
+                if (lastname.getText() != null) {
+                    lastnameString = lastname.getText();
+                }
+
+                
+                if (birthDate != null) {
                     birthdateString = birthDate.toString();
                 }
                 int age = calculateAge(birthDate);
@@ -119,17 +136,19 @@ public class PrefrencesWindowWithToken {
                 }
                 int min = (int)ageSlider.getLowValue();
                 int max = (int)ageSlider.getHighValue();
-                User user = new User();
-                user.setBirthDate(birthdateString);
-                user.setAge(age); // Assuming User has an `age` field
-                user.setGender(gender);
-                user.setPreferredGender(PreferredGender);
-                user.setBio(bioTextArea.getText());
-                user.setMinPreferredAge(min);
-                user.setMaxPreferredAge(max);
+                User userPref = new User();
+                userPref.setBirthDate(birthdateString);
+                userPref.setAge(age); // Assuming User has an `age` field
+                userPref.setGender(gender);
+                userPref.setPreferredGender(PreferredGender);
+                userPref.setMinPreferredAge(min);
+                userPref.setMaxPreferredAge(max);
+                userPref.setFirstName(firstnameString);
+                userPref.setLastName(lastnameString);
+                
 
                 
-                UsersRouteRequests.UpdatePreferrences(user, id);
+                UserProfileRequests.UpdatePreferrences(userPref, id);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Preferences saved successfully!", ButtonType.OK);
                 alert.showAndWait();
                 // Optionally transition to another stage
@@ -139,6 +158,7 @@ public class PrefrencesWindowWithToken {
         // Add all elements to the layout
         root.getChildren().addAll(
                 backtomainpage,
+                firstname,lastname,
                 birthDateLabel, birthDatePicker,
                 genderLabel, genderBox,
                 preferenceLabel, preferenceBox,

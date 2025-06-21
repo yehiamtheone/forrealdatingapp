@@ -1,10 +1,12 @@
-package forrealdatingapp;
+package forrealdatingapp.signUpScenes;
 
 import java.time.LocalDate;
 import java.time.Period;
 
 import org.controlsfx.control.RangeSlider;
 
+import forrealdatingapp.App;
+import forrealdatingapp.dtos.User;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;

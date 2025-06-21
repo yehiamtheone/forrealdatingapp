@@ -1,8 +1,11 @@
-package forrealdatingapp;
+package forrealdatingapp.signUpScenes;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import forrealdatingapp.App;
+import forrealdatingapp.dtos.User;
+import forrealdatingapp.utilities.CloudinaryUtils;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;

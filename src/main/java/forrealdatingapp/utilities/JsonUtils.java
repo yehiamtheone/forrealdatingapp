@@ -1,4 +1,4 @@
-package forrealdatingapp;
+package forrealdatingapp.utilities;
 
 import java.io.IOException;
 import java.util.Map;

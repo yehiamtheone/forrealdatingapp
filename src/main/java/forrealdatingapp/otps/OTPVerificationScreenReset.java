@@ -1,17 +1,22 @@
-package forrealdatingapp;
+package forrealdatingapp.otps;
 
+import forrealdatingapp.App;
+import forrealdatingapp.dtos.User;
+import forrealdatingapp.passwordReset.ChoosePassword;
+import forrealdatingapp.routes.AuthRequests;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class OTPVerificationScreen{
+public class OTPVerificationScreenReset{
 
     
-    public void ShowOTPVerificationScreen(Stage stage, User user) {
+    public void ShowOTPVerificationScreenReset(Stage stage, User user) {
         VBox root = new VBox(10);
 
         TextField otpField = new TextField();
@@ -22,11 +27,16 @@ public class OTPVerificationScreen{
         verifyOtpButton.setOnAction(event -> {
             String otp = otpField.getText();
             String email = user.getEmail(); // You should store this value from the previous screen
-            boolean valid = UsersRouteRequests.verifyOtpRequest(email, otp);
+            boolean valid = AuthRequests.verifyOtpRequest(email, otp);
             if(valid) {
-                System.out.println("move to the next screen -- UserDetails");
-                UserDetails userDetails =  new UserDetails();
-                userDetails.showUserDetails(stage, user);
+                ChoosePassword ChoosePassword = new ChoosePassword();
+                ChoosePassword.showChoosePassword(stage, user);
+                
+                // LoginWindow lg = new LoginWindow();                
+                // lg.showLoginWindow(stage, null);
+                // LoginWindow.error.setTextFill(Color.GREEN);
+                // LoginWindow.error.setText("Password been reset successfully");
+
 
 
         }

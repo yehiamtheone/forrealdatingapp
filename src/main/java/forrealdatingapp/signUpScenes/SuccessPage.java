@@ -1,4 +1,5 @@
-package forrealdatingapp;
+package forrealdatingapp.signUpScenes;
+import forrealdatingapp.Scenes.LoginWindow;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

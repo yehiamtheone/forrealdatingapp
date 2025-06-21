@@ -1,4 +1,4 @@
-package forrealdatingapp;
+package forrealdatingapp.utilities;
 
 import java.io.File;
 import java.io.IOException;

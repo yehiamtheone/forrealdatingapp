@@ -1,10 +1,19 @@
-package forrealdatingapp;
+package forrealdatingapp.Scenes;
+import static forrealdatingapp.routes.RouterUtils.manageToken;
+
 import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import forrealdatingapp.App;
+import forrealdatingapp.TokenManager;
+import forrealdatingapp.chatScenes.ChatZone;
+import forrealdatingapp.dtos.LoginClass;
+import forrealdatingapp.otps.SendOTPReset;
+import forrealdatingapp.otps.SendOTPScreen;
+import forrealdatingapp.routes.AuthRequests;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -144,7 +153,7 @@ private void login(String usrname, String p, Label error, Stage stage,String _id
         
     }
     // System.out.println(json);
-    String res = UsersRouteRequests.PostLogin(json);
+    String res = AuthRequests.PostLogin(json);
     // System.out.println(res == null);
     String token = "";
     
@@ -161,8 +170,7 @@ private void login(String usrname, String p, Label error, Stage stage,String _id
         //token logic -- create token class
         // res var contains token now
         passID = _id;
-        TokenManager tokenManager = new TokenManager();
-        tokenManager.saveToken(_id, token);
+        manageToken().saveToken(_id, token);
         try {
             ChatZone.connectToServer();
             ChatZone.writer.println("userInteract|" + _id);
