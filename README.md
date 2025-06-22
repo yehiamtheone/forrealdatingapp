@@ -2,7 +2,12 @@
 
 A JavaScript-based backend application for a real-time dating platform with MongoDB database, Express-js backend and socket integration.
 
-### Clone the Repository
+## Prerequisites
+
+- **Frontend Setup Required**: Clone and set up the [frontend branch](https://github.com/yehiamtheone/forrealdatingapp/tree/Frontend) first
+
+- **Database**: MongoDB (Atlas cloud or local installation)
+
 
 This project uses multiple branches. Clone the backend branch specifically:
 
