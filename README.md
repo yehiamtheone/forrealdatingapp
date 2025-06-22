@@ -48,8 +48,8 @@ CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@<your_cloud_name>
 ## Environment Variables Reference
 
 ### Core Configuration
-- `EXPRESS`: HTTP server endpoint URL (e.g., `http://localhost:3000/`)
-- `TCP`: TCP server endpoint for socket connections (e.g., `localhost:4000`)
+- `EXPRESS`: HTTP server endpoint URL (e.g., `http://127.0.0.1:3000/`)
+- `TCP`: TCP server endpoint for socket connections (e.g., `127.0.0.1:4000`)
 - `TOKEN_SECRET`: Secret key for JWT token generation and validation (use any secure random string)
 
 ### Database Configuration
@@ -71,3 +71,4 @@ CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@<your_cloud_name>
 - For `GMAIL_SMTP_PASS`, use an App Password generated from your Google Account security settings, not your regular password
 - The `TOKEN_SECRET` should be a long, random string for security purposes
 - MongoDB URL format depends on whether you're using a local instance or MongoDB Atlas cloud service
+- For deployment web servers like render etc the backend ip interface will be selected automatically by the service, for custom domains its better go by the dotenv configuration 
