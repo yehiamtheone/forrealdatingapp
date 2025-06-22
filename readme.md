@@ -45,6 +45,11 @@ Copy the `env.example` file and configure your environment variables:
    ./gradlew createExe
    ./gradlew zipLaunch4j
    ```
+   *or for a preview before creating the executable run those commands instead:*
+   ```bash
+      ./gradlew clean build
+      ./gradlew run
+   ```
 
 3. **Extract and run**
    - Navigate to `build/distribution/`
