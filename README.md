@@ -4,7 +4,7 @@ A JavaScript-based backend application for a real-time dating platform with Mong
 
 ## Prerequisites
 
-- **Frontend Setup Required**: Clone and set up the [frontend branch](https://github.com/yehiamtheone/forrealdatingapp/tree/Frontend) first
+- **Frontend Setup Required**: Clone and set up the [frontend branch](https://github.com/yehiamtheone/forrealdatingapp/tree/Frontend) 
 
 - **Database**: MongoDB (Atlas cloud or local installation)
 
