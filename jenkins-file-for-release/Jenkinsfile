@@ -79,12 +79,12 @@ pipeline {
 
 
                     // Create release notes file
-                    writeFile file: 'release-notes.md', text: "forrealdatingapp\nRelease ${env.BUILD_NUMBER} - Built by Jenkins"
+                    writeFile file: 'release-notes.md', text: "forrealdatingap executable - Built by Jenkins"
                     // Create GitHub release
                     createGitHubRelease(
                         credentialId: 'GITHUB_TOKEN',
                         repository: 'yehiamtheone/forrealdatingapp',
-                        tag: "Official-Release",
+                        tag: "official-app-exe",
                         commitish: 'main',
                         bodyFile: 'release-notes.md',
                         draft: false
@@ -94,7 +94,7 @@ pipeline {
                     uploadGithubReleaseAsset(
                         credentialId: 'GITHUB_TOKEN',
                         repository: 'yehiamtheone/forrealdatingapp',
-                        tagName: "Official-Release",
+                        tagName: "official-app-exe",
                         uploadAssets: [
                             [filePath: zipFilePath]
                         ]
