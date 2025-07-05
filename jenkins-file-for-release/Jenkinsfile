@@ -84,7 +84,7 @@ pipeline {
                     createGitHubRelease(
                         credentialId: 'GITHUB_TOKEN',
                         repository: 'yehiamtheone/forrealdatingapp',
-                        tag: "Official Release",
+                        tag: "Official-Release",
                         commitish: 'main',
                         bodyFile: 'release-notes.md',
                         draft: false
@@ -94,7 +94,7 @@ pipeline {
                     uploadGithubReleaseAsset(
                         credentialId: 'GITHUB_TOKEN',
                         repository: 'yehiamtheone/forrealdatingapp',
-                        tagName: "Official Release",
+                        tagName: "Official-Release",
                         uploadAssets: [
                             [filePath: zipFilePath]
                         ]
