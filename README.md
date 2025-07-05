@@ -86,7 +86,7 @@ if used locally.
 - **Checkout**: Verify Git repository access
 - **Add Env File**: creating .env file
 with values that injected from jenkins credentials
-could be set through http://your-domain:8080/ in Dashboard -> Mange jenkins -> credintales -> Stores scoped to Jenkins -> System -> Global credentials (unrestricted) -> Add Credentials -> kind Secret text
+could be set through http://<your-domain>:8080/ in Dashboard -> Mange jenkins -> credintales -> Stores scoped to Jenkins -> System -> Global credentials (unrestricted) -> Add Credentials -> kind Secret text
 - **Upload Server**: use command 
 ```sh
 npm ci
