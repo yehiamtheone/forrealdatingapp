@@ -44,14 +44,14 @@ pipeline {
                 }
             }
         }
-        stage('Upload Server') {
+        stage('Upload Server With Docker Compose') {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'npm ci'
-                        sh 'nohup npm start &'
+                        sh 'docker compose up -build --d'
+                        
                     } else {
-                        bat 'npm ci'
+                        bat 'docker compose up -build --d'
                      
                     }
                 }
