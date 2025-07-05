@@ -115,26 +115,20 @@ pipeline {
     }
 
     post {
-        // Actions to perform after the pipeline completes
-        
         success {
             echo 'Pipeline succeeded! 🎉'
-            // Notify the team (e.g., via email, Slack, etc.)
+            // Notify the team
         }
         failure {
             echo 'Pipeline failed! 😢'
-            // Notify the team (e.g., via email, Slack, etc.)
+            // Notify the team
         }
-        cleanup{
-            def workspaceFolder = env.WORKSPACE.tokenize('/').last()
+        cleanup {
             script {
-                sh 'cd ..'
-                sh "rm -rf ${workspaceFolder}"
-            
-                    
+                // This safely deletes the workspace
+                deleteDir()
             }
-
         }
-        
     }
+
 }
