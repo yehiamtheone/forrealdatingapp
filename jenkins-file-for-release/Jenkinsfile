@@ -116,7 +116,7 @@ pipeline {
 
     post {
         // Actions to perform after the pipeline completes
-        def workspaceFolder = env.WORKSPACE.tokenize('/').last()
+        
         success {
             echo 'Pipeline succeeded! 🎉'
             // Notify the team (e.g., via email, Slack, etc.)
@@ -125,11 +125,15 @@ pipeline {
             echo 'Pipeline failed! 😢'
             // Notify the team (e.g., via email, Slack, etc.)
         }
-        script {
-            sh 'cd ..'
-            sh "rm -rf ${workspaceFolder}"
-           
-                
+        cleanup{
+            def workspaceFolder = env.WORKSPACE.tokenize('/').last()
+            script {
+                sh 'cd ..'
+                sh "rm -rf ${workspaceFolder}"
+            
+                    
+            }
+
         }
         
     }
