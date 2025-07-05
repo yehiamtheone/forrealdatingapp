@@ -6,6 +6,7 @@ import forrealdatingapp.Scenes.LoginWindow;
 import forrealdatingapp.Scenes.MatchesPage;
 import forrealdatingapp.chatScenes.ChatZone;
 import io.github.cdimascio.dotenv.Dotenv;
+import io.github.cdimascio.dotenv.DotenvException;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.control.Button;
@@ -55,12 +56,21 @@ public class App extends Application{
 
     }
     public static String getEnv(String key) {
-        Dotenv dotenv = Dotenv.load();
-        return  System.getenv(key) != null ? System.getenv(key) : dotenv.get(key);
-       
-
+        // Check system environment first
+        String value = System.getenv(key);
+        if (value != null) {
+            return value;
+        }
+        
+        // Fallback to .env file only if needed
+        try {
+            Dotenv dotenv = Dotenv.load();
+            return dotenv.get(key);
+        } catch (DotenvException e) {
+            throw new RuntimeException("Missing environment variable: " + key + 
+                                " (not found in system env or .env file)", e);
+        }
     }
-    
     
     public static void main(String[] args) throws Exception {
         // // delete later
