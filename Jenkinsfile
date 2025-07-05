@@ -4,10 +4,12 @@ pipeline {
     }
     environment {
         // Define environment variables (can be loaded from Jenkins credentials)
-        EXPRESS_PORT = credentials('EXPRESS_PORT')
-        SOCKET_PORT = credentials('SOCKET_PORT')
-        MONGO_ATLAS_URL = credentials('MONGO_URL')
-        TOKEN_STRING = credentials('TOKEN_STRING')
+        EXPRESS = credentials('EXPRESS')
+        TCP = credentials('TCP')
+        MONGO_URL = credentials('MONGO_URL')
+        JWT_SECRET = credentials('JWT_SECRET')
+        GMAIL_SMTP_EMAIL=credentials('GMAIL_SMTP_EMAIL')
+        GMAIL_SMTP_PASSWORD=credentials('GMAIL_SMTP_WORD')
     }
     stages {
         stage('Checkout') {
@@ -21,18 +23,22 @@ pipeline {
                     if (isUnix()) {
                         sh '''
                         cat <<EOF > .env
-                        EXPRESS_PORT=${EXPRESS_PORT}
-                        TOKEN_STRING=${TOKEN_STRING}
-                        SOCKET_PORT=${SOCKET_PORT}
-                        MONGO_ATLAS_URL=${MONGO_URL}
+                        EXPRESS=${EXPRESS}
+                        JWT_SECRET=${JWT_SECRET}
+                        TCP=${TCP}
+                        MONGO_URL=${MONGO_URL}
+                        GMAIL_SMTP_EMAIL=${GMAIL_SMTP_EMAIL}
+                        GMAIL_SMTP_PASSWORD=${GMAIL_SMTP_PASSWORD}
                         EOF
                         '''
                     } else {
                         bat '''
-                        echo EXPRESS_PORT=%EXPRESS_PORT% > .env
-                        echo TOKEN_STRING=%TOKEN_STRING% >> .env
-                        echo SOCKET_PORT=%SOCKET_PORT% >> .env
-                        echo MONGO_ATLAS_URL=%MONGO_URL% >> .env
+                        echo EXPRESS=%EXPRESS% > .env
+                        echo JWT_SECRET=%JWT_SECRET% >> .env
+                        echo TCP=%TCP% >> .env
+                        echo MONGO_URL=%MONGO_URL% >> .env
+                        echo GMAIL_SMTP_EMAIL=%GMAIL_SMTP_EMAIL% >> .env
+                        echo GMAIL_SMTP_PASSWORD=%GMAIL_SMTP_PASSWORD% >> .env
                         '''
                     }
                 }

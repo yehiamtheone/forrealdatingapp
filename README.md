@@ -25,7 +25,7 @@ Copy the `env.example` file and configure your environment variables:
 - `MONGO_URL`: Atlas url from mongo atlas or localhost usually on PORT 27017
 if used locally.   
  
-- `TOKEN_SECRET`: for jwt token authentications
+- `JWT_SECRET`: for jwt token authentications
 
 - `GMAIL_SMTP_EMAIL`: Gmail address for SMTP email sending
 
@@ -52,7 +52,7 @@ if used locally.
    ```bat
    setx EXPRESS "e.g., http:localhost:3000"
    setx TCP "e.g., http:localhost:3000"\
-   setx TOKEN_SECRET "any_string"
+   setx JWT_SECRET "any_string"
    setx CLOUDINARY_URL "your_cloudinary_url_here"
    setx MONGO_URL "atlas srv domain or local domain"
    setx GMAIL_SMTP_EMAIL "your_email"
