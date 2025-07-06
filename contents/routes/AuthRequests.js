@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
     try {
       let details = req.body;
 
-      user.password = bcrypt.hash(user.password, 12);
+      details.password = await bcrypt.hash(details.password, 12);
       let user = new UserModel(details);
       await user.save();
       details.password = "******";

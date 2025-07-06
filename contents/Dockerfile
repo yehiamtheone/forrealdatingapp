@@ -20,8 +20,7 @@ COPY ./secret ./secret
 COPY ./app.js ./
 COPY ./SocketServer.js ./
 COPY ./NodemailerConfig.js ./
-# Expose ports 3000 and 4000
-EXPOSE 3000 4000
+
 
 # Command to run the app (adjust to your entry file)
 CMD  ["npm" , "start"]

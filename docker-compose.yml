@@ -4,15 +4,13 @@ services:
     container_name: mongodb
     restart: always
     ports:
-      - "27017:27018"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: password
+      - "27017:27017"  # Fixed port mapping
     volumes:
       - mongo-data:/data/db
       - mongo-config:/data/configdb
     networks:
       - app-network
+    # Removed all MONGO_INITDB_ROOT_* environment variables
 
   forrealdatingapp-server:
     build:
@@ -25,7 +23,7 @@ services:
       - EXPRESS=${EXPRESS}
       - TCP=${TCP}
       - JWT_SECRET=${JWT_SECRET}
-      - MONGO_URL=mongodb://root:password@mongo:27017/
+      - MONGO_URL=${MONGO_URL}
       - GMAIL_SMTP_EMAIL=${GMAIL_SMTP_EMAIL}
       - GMAIL_SMTP_PASSWORD=${GMAIL_SMTP_PASSWORD}
     volumes:
@@ -41,9 +39,8 @@ services:
     environment:
       ME_CONFIG_MONGODB_SERVER: mongo
       ME_CONFIG_MONGODB_PORT: 27017
-      ME_CONFIG_MONGODB_ENABLE_ADMIN: true
-      ME_CONFIG_MONGODB_AUTH_USERNAME: root
-      ME_CONFIG_MONGODB_AUTH_PASSWORD: password
+      ME_CONFIG_BASICAUTH: false
+      # Removed all authentication-related variables
     depends_on:
       - mongo
     ports:
