@@ -55,6 +55,7 @@ CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@<your_cloud_name>
 - `MONGO_URL`: MongoDB connection string
   - Local: `mongodb://localhost:27017/`
   - Atlas: `mongodb+srv://<username>:<password>@cluster0.eyhd9.mongodb.net/`
+  - Docker: `mongodb://<your_db_service_name>:27017/<your_db_name>`
 
 ### File Upload Configuration
 - `CLOUDINARY_URL`: Cloudinary service URL for image/file uploads
