@@ -141,12 +141,12 @@ pipeline {
             echo 'Pipeline failed! 😢'
             // Notify the team
         }
-        // cleanup {
-        //     script {
-        //         // This safely deletes the workspace
-        //         deleteDir()
-        //     }
-        // }
+        cleanup {
+            script {
+                // This safely deletes the workspace
+                deleteDir()
+            }
+        }
     }
 
 }
