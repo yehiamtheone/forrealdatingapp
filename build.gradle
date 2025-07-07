@@ -31,6 +31,9 @@ jar {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
  
     }
+    from('.') {   // <-- project root
+        include '.env'
+    }
 }
 def launch4jOutputDir = "${buildDir}/launch4j"
 
