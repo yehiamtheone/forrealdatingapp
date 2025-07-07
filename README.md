@@ -120,6 +120,23 @@ For issues related to:
 - **Backend Setup**: Check the backend branch documentation
 - **Database Configuration**: Refer to MongoDB connection setup in backend
 - **Jenkins Pipeline**: Ensure correct branch and agent configuration
+
+## Setup Pipeline (`jenkins-file-for-setwin/Jenkinsfile`)
+
+**Purpose**: Environment setup and automatic release download for Windows
+
+**Features**:
+- Injects environment variables automatically
+- Downloads latest release to workspace
+- Windows-specific setup commands
+
+**Stages**:
+- **Checkout**: Verify Git repository access
+- **Add Environment Variables**: Configure Windows environment using `setx` commands
+- **Download Latest Release**: Fetch the latest executable from GitHub releases
+
+
+
 <!-- ## License
 
 [Add your license information here] -->
