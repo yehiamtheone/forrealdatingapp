@@ -72,3 +72,54 @@ CLOUDINARY_URL=cloudinary://<your_api_key>:<your_api_secret>@<your_cloud_name>
 - The `JWT_SECRET` should be a long, random string for security purposes
 - MongoDB URL format depends on whether you're using a local instance or MongoDB Atlas cloud service
 - For deployment web servers like render etc the backend ip interface will be selected automatically by the service, for custom domains its better go by the dotenv configuration 
+
+## Architecture Notes
+
+### Technology Stack
+- **Frontend**: Java with Gradle build system
+- **Backend**: Express.js (Node.js)
+- **Database**: MongoDB
+- **Real-time Communication**: Socket.io
+- **Media Storage**: Cloudinary (optional)
+- **Build Tool**: Gradle with Launch4j plugin
+
+### Port Configuration
+- **Backend API**: Port 3000
+- **Socket Server**: Port 4000
+- **Jenkins**: Port 8080
+
+### Platform Support
+- **Windows**: Full support with standalone executable
+- **macOS/Linux**: Manual runtime setup required (not packaged as standalone)
+
+## Important Notes
+
+- **Official App Limitation**: If running the official app without connection handling, manual environment configuration is required
+- **Cloudinary Integration**: Follow the existing Cloudinary API implementation; do not substitute with different APIs
+- **Database Instructions**: Refer to the backend branch for MongoDB setup and connection strings
+- **Cross-Platform**: While Gradle supports dynamic runtime for macOS/Linux, standalone app packaging is Windows-only
+
+## Troubleshooting
+
+1. **Build Issues**: Ensure all environment variables are properly set
+2. **Connection Problems**: Verify backend server is running on the specified port
+3. **Database Errors**: Check MongoDB connection string in backend configuration
+4. **Jenkins Failures**: Confirm the correct branch is specified and Unix agent is available
+
+<!-- ## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request -->
+
+## Support
+
+For issues related to:
+- **Backend Setup**: Check the backend branch documentation
+- **Database Configuration**: Refer to MongoDB connection setup in backend
+- **Jenkins Pipeline**: Ensure correct branch and agent configuration
+<!-- ## License
+
+[Add your license information here] -->
